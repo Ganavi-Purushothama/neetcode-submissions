@@ -1,0 +1,40 @@
+class TimeMap:
+
+    def __init__(self):
+        self.store = defaultdict(list)
+
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.store[key].append([timestamp, value])
+
+
+    def get(self, key: str, timestamp: int) -> str:
+        if key not in self.store:
+            return ""
+
+        arr=self.store[key]
+
+        left=0
+        right=len(arr)-1
+
+        res=""
+
+        while(left<=right):
+            mid=(left+right)//2
+
+            if arr[mid][0] <= timestamp:
+
+                # Valid answer.
+                # Save it.
+                res = arr[mid][1]
+
+                # Maybe there's a newer timestamp
+                # that is still <= target.
+                left = mid + 1
+
+            else:
+                # Timestamp too large.
+                right = mid - 1
+
+        return res
+        
